@@ -1,3 +1,4 @@
+<div class="jumbotron">
 <form name="contatoForm">		
 		<input class="form-control" placeholder="nome" name="nome" type="text" ng-model="contato.nome" ng-required="true" ng-minlength="10">
 		<input class="form-control" placeholder="telefone" name="telefone" type="text" ng-model="contato.telefone" ng-required="true" ng-pattern="/^\d{4,5}-\d{4}$/">
@@ -23,3 +24,4 @@
 		Por favor, telefone deve seguir formato DDDDD-DDDD.
 	</div>
 	<button class="btn btn-primary btn-block" ng-disabled="contatoForm.$invalid" ng-click="AdicionarContato(contato)">Adicionar Contato</button>
+</div>

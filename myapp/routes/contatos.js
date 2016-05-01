@@ -11,9 +11,8 @@ router.get('/', function(req, res, next) {
   res.send(JSON.stringify(contatos));
 });
 
-router.post('/', function(req, res, next) {
-  var contato = req.param('contato', {});	
-  contatos.push(JSON.parse(contato));
+router.post('/', function(req, res, next) {  	
+  contatos.push(req.body);
   res.send(JSON.stringify(contatos));
 });
 
