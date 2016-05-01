@@ -1,4 +1,4 @@
-angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, contatosAPI, contatos, serialGenerator){
+angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, $location, contatosAPI, contatos, serialGenerator){
 		$scope.app = "Lista Telefônica";
 		$scope.contatos = contatos.data;		
 
@@ -15,8 +15,8 @@ angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($sc
 		};
 		
 		$scope.ApagarContatos = function(contatos){
-			$scope.contatos = contatos.filter(function(contato){
-					if(!contato.selecionado) return contato;
+			contatosAPI.apagaContatos(contatos).then(function(data){
+				location.reload();
 			});
 		};
 

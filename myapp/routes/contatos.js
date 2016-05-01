@@ -16,4 +16,12 @@ router.post('/', function(req, res, next) {
   res.send(JSON.stringify(contatos));
 });
 
+router.delete('/', function(req, res, next) {  	
+ var contatosnaoselecionados = req.body.filter(function(contato){
+	if(!contato.selecionado) return contato;
+ });
+  contatos = contatosnaoselecionados;
+  res.send(JSON.stringify(contatos));
+});
+
 module.exports = router;
