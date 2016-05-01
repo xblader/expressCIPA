@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   var responseText = 'Hello World!';
   responseText += 'Requested at: ' + req.requestTime + '';
-  res.render('index.html');
+  res.render('index.hbs');
 });
 
 module.exports = router;
