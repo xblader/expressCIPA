@@ -16,7 +16,7 @@ angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($sc
 		
 		$scope.ApagarContatos = function(contatos){
 			contatosAPI.apagaContatos(contatos).then(function(data){
-				location.reload();
+				$scope.contatos = data.data;
 			});
 		};
 
