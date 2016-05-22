@@ -7,6 +7,10 @@ angular.module("listaTelefonica").factory("contatosAPI", function($http, config)
 	var _saveContato = function(contato){
 		return $http.post(config.baseUrl + "/contatos", contato);
 	}
+	var _getContato = function (id) {
+		return $http.get(config.baseUrl + "/contatos/" + id);
+	};
+
 	var _apagaContatos = function(contatos){
 		return $http({ url: config.baseUrl + "/contatos", 
                 method: 'DELETE', 
@@ -15,6 +19,7 @@ angular.module("listaTelefonica").factory("contatosAPI", function($http, config)
         });
 	}
 	return {
+		getContato: _getContato,
 		getContatos : _getContatos,
 		saveContato: _saveContato,
 		apagaContatos : _apagaContatos
