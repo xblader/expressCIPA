@@ -1,13 +1,21 @@
 var express = require('express');
+var MongoClient = require('mongodb').MongoClient;
+
 var router = express.Router();
-var contatos = [
-			{id: 1, nome:"Joao da silva", telefone:"99998888", data: new Date(), operadora: {nome:"Oi",codigo:31, categoria:"Celular", preco:2}},
-			{id: 2, nome:"Maria do carvalho", telefone:"99997777", data: new Date(),operadora: {nome:"Vivo",codigo:15, categoria:"Celular", preco:1}},
-			{id: 3,nome:"Pedro dos santos", telefone: "99996666", data: new Date(),operadora: {nome:"Tim",codigo:41, categoria:"Celular", preco:3}}
-		];
+var contatos;
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  
+    MongoClient.connect('mongodb://localhost:27017/test', function(err, db) {
+    if (err) {
+      throw err;
+    }
+    db.collection('contatos').find().toArray(function(err, result) {
+      if (err) {
+        throw err;
+      }
+      contatos = result;
+    });
+  });
   res.send(JSON.stringify(contatos));
 });
 
