@@ -5,6 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var hbs = require('express-hbs');
+var bson = require('bson');
+var mongo = require('mongodb');
+var monk = require('monk');
+var db =  monk('localhost:27017/test');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -15,6 +19,8 @@ var app = express();
 
 var requestTime = function (req, res, next) {
   req.requestTime = Date.now();
+  req.db = db;
+  req.mongo = mongo;
   next();
 };
 
