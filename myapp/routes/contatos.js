@@ -1,30 +1,27 @@
 var express = require('express');
-var MongoClient = require('mongodb').MongoClient;
+var bson = require('bson');
+var mongo = require('mongodb');
+var monk = require('monk');
+var db =  monk('localhost:27017/test');
 
 var router = express.Router();
-var contatos;
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    MongoClient.connect('mongodb://localhost:27017/test', function(err, db) {
-    if (err) {
-      throw err;
-    }
-    db.collection('contatos').find().toArray(function(err, result) {
-      if (err) {
-        throw err;
-      }
-      contatos = result;
-    });
-  });
-  res.send(JSON.stringify(contatos));
+  var collection = db.get('contatos');
+  collection.find({},{limit:20},function(e,docs){
+    res.json(docs);
+  });  
 });
 
 router.get('/:id', function(req, res, next) {
-  var id = req.params.id;
-  var result = contatos.filter(function(v) {
-    return v.id == id; // Filter out the appropriate one
-  });
-  res.send(JSON.stringify(result));
+  var id = req.params.id;  
+  var ObjectID = mongo.ObjectID;
+  objId = new ObjectID(id); 
+  var collection = db.get('contatos');
+    collection.find({"_id": objId},{},function(e,docs){
+        res.json(docs);
+    });
 });
 
 router.post('/', function(req, res, next) {  	
