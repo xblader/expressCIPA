@@ -19,16 +19,33 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {  	
-  contatos.push(req.body);
-  res.send(JSON.stringify(contatos));
+  var collection = req.db.get('contatos');
+  var contatos = [];
+  var contato = req.body;
+  delete contato["_id"];
+  contatos.push(contato);
+   // Insert some users
+    collection.insert(contatos, function (err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('Inserted %d documents into the "contatos" collection. The documents inserted with "_id" are:', result.length, result);
+        res.json(result);
+      }
+    });
 });
 
-router.delete('/', function(req, res, next) {  	
- var contatosnaoselecionados = req.body.filter(function(contato){
-	if(!contato.selecionado) return contato;
- });
-  contatos = contatosnaoselecionados;
-  res.send(JSON.stringify(contatos));
+router.delete('/', function(req, res, next) {  	 
+  var collection = req.db.get('contatos');
+  var contatos = [];
+  var ObjectID = req.mongo.ObjectID;  
+
+  req.body.forEach(function(item){
+    contatos.push(new ObjectID(item._id));
+  });
+  collection.remove({'_id':{'$in': contatos}},function(){
+    res.json(contatos);
+  });
 });
 
 module.exports = router;
