@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var hbs = require('express-hbs');
 var bson = require('bson');
 var mongo = require('mongodb');
@@ -12,10 +13,16 @@ var db =  monk('localhost:27017/test');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var contatos = require('./routes/contatos');
-var operadoras = require('./routes/operadoras');
+var genericroute = require('./routes/generic');
+var config = require('./config');
+var mongoose    = require('mongoose');
+
+
 
 var app = express();
+
+mongoose.connect(config.database); // connect to database
+app.set('superSecret', config.secret); // secret variable
 
 var requestTime = function (req, res, next) {
   req.requestTime = Date.now();
@@ -48,9 +55,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
-app.use('/contatos', contatos);
-app.use('/operadoras', operadoras);
+app.use('/login', users);
+app.use('/api/v1', genericroute);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

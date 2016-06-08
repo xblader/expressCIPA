@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node-debug ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -13,10 +13,12 @@
     "ejs": "^2.4.1",
     "express": "~4.13.1",
     "jade": "~1.11.0",
+    "jsonwebtoken": "^7.0.0",
     "mongodb": "^2.1.19",
-    "mongoose": "^4.4.19",
+    "mongoose": "^4.4.20",
     "monk": "^1.0.1",
     "morgan": "~1.6.1",
+    "nodemon": "^1.9.2",
     "serve-favicon": "~2.3.0"
   }
 }
